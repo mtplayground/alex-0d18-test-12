@@ -52,7 +52,12 @@ export function Differentiators({ content }: DifferentiatorsProps) {
                 Ownership comparison
               </h3>
             </div>
-            <div className="overflow-x-auto">
+            <div
+              aria-label="Ownership comparison table"
+              className="overflow-x-auto"
+              role="region"
+              tabIndex={0}
+            >
               <table className="min-w-[42rem] text-left text-sm">
                 <thead>
                   <tr className="border-b border-white/10 text-white">

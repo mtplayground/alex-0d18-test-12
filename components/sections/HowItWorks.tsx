@@ -48,7 +48,7 @@ export function HowItWorks({ content }: HowItWorksProps) {
                   <div className="flex h-11 w-11 items-center justify-center rounded-md bg-brand-100 text-brand-800">
                     <Icon aria-hidden="true" className="h-5 w-5" />
                   </div>
-                  <span className="text-sm font-semibold text-foreground/35">
+                  <span className="text-sm font-semibold text-brand-800">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
