@@ -11,6 +11,14 @@ const inter = Inter({
 
 const siteName = "myClawTeam";
 const siteDescription = "Static-export Next.js landing site for myClawTeam.";
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: siteName,
+  url: publicEnv.siteUrl,
+  logo: new URL("/favicon.ico", publicEnv.siteUrl).toString(),
+  description: siteDescription,
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(publicEnv.siteUrl),
@@ -49,7 +57,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.variable}>{children}</body>
+      <body className={inter.variable}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationJsonLd),
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
