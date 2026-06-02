@@ -13,6 +13,7 @@ export function FinalCTA({ content }: FinalCTAProps) {
       id={content.id}
       spacing="lg"
     >
+      <span aria-hidden="true" className="absolute top-0" id="contact" />
       <div
         aria-hidden="true"
         className="absolute inset-x-0 top-0 h-1 bg-accent-400"
