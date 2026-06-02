@@ -77,10 +77,86 @@ npm start
 
 ## Deploy
 
-Deploy the contents of `out/` to any static hosting provider. The deployment
-platform should serve `out/index.html` for the root route and preserve files
-under `out/_next/` for the compiled assets.
+This project deploys as static files. Set `NEXT_PUBLIC_SITE_URL` to the public
+production origin before building so sitemap, Open Graph, Twitter card, and
+JSON-LD URLs are absolute and correct.
 
-Set `NEXT_PUBLIC_SITE_URL` in the deployment environment to the production
-origin, for example `https://www.myclawteam.com`, before running
-`npm run build`.
+```bash
+export NEXT_PUBLIC_SITE_URL=https://www.myclawteam.com
+npm ci
+npm run build
+```
+
+After `next build` completes, deploy the generated `out/` directory. The server
+does not need to run Next.js in production.
+
+Example copy step:
+
+```bash
+rsync -av --delete out/ deploy@web:/var/www/myclawteam/out/
+```
+
+The static server must:
+
+- Serve `/var/www/myclawteam/out/index.html` for `/`.
+- Preserve `/_next/static/*` asset paths.
+- Serve `404.html` for unknown routes with a `404` status.
+- Serve `robots.txt`, `sitemap.xml`, `favicon.ico`, and files under `images/`
+  directly from `out/`.
+
+### nginx
+
+```nginx
+server {
+    listen 80;
+    server_name www.myclawteam.com;
+
+    root /var/www/myclawteam/out;
+    index index.html;
+
+    location /_next/static/ {
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        try_files $uri =404;
+    }
+
+    location / {
+        try_files $uri $uri.html $uri/ =404;
+    }
+
+    error_page 404 /404.html;
+}
+```
+
+Reload nginx after copying a new `out/` directory:
+
+```bash
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+### Caddy
+
+```caddyfile
+www.myclawteam.com {
+    root * /var/www/myclawteam/out
+    encode zstd gzip
+
+    header /_next/static/* Cache-Control "public, max-age=31536000, immutable"
+
+    try_files {path} {path}.html {path}/index.html =404
+    file_server
+
+    handle_errors {
+        @notFound expression {http.error.status_code} == 404
+        rewrite @notFound /404.html
+        file_server
+    }
+}
+```
+
+Reload Caddy after copying a new `out/` directory:
+
+```bash
+sudo caddy validate --config /etc/caddy/Caddyfile
+sudo systemctl reload caddy
+```
