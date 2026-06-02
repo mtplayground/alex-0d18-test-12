@@ -1,3 +1,5 @@
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
 import { Differentiators } from "@/components/sections/Differentiators";
 import { FAQ } from "@/components/sections/FAQ";
 import { Features } from "@/components/sections/Features";
@@ -8,13 +10,17 @@ import { landingContent } from "@/content/landing";
 
 export default function Home() {
   return (
-    <main>
-      <Hero content={landingContent.hero} />
-      <HowItWorks content={landingContent.howItWorks} />
-      <Features content={landingContent.features} />
-      <Differentiators content={landingContent.differentiators} />
-      <FAQ content={landingContent.faq} />
-      <FinalCTA content={landingContent.finalCta} />
-    </main>
+    <>
+      <Header />
+      <main>
+        <Hero content={landingContent.hero} />
+        <HowItWorks content={landingContent.howItWorks} />
+        <Features content={landingContent.features} />
+        <Differentiators content={landingContent.differentiators} />
+        <FAQ content={landingContent.faq} />
+        <FinalCTA content={landingContent.finalCta} />
+      </main>
+      <Footer />
+    </>
   );
 }
