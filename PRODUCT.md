@@ -49,6 +49,9 @@ keeping ownership in the user's own repository.
   `npm run test:e2e`, and `npm run build`.
 - Unit tests use Vitest and React Testing Library.
 - End-to-end and accessibility checks use Playwright and axe.
+- `scripts/ui-verify.js` is the post-deploy browser smoke verifier; it checks
+  styling, content, navigation, CTA behavior, the custom 404 page, and writes
+  `/workspace/verify-screenshot.png`.
 - Production deployment copies the generated `out/` directory to a static host
   such as nginx or Caddy. README.md contains the exact deployment recipe and
   sample server configs.
