@@ -29,7 +29,7 @@
     overflow-x: hidden;
     background: rgb(var(--color-background));
     color: rgb(var(--color-foreground));
-    font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+    font-family: var(--font-inter), Arial, Helvetica, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
