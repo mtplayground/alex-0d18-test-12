@@ -1,3 +1,4 @@
+import { Differentiators } from "@/components/sections/Differentiators";
 import { Features } from "@/components/sections/Features";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -9,6 +10,7 @@ export default function Home() {
       <Hero content={landingContent.hero} />
       <HowItWorks content={landingContent.howItWorks} />
       <Features content={landingContent.features} />
+      <Differentiators content={landingContent.differentiators} />
     </main>
   );
 }

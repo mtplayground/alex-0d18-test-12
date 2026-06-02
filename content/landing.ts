@@ -45,9 +45,20 @@ export type DifferentiatorItem = Readonly<{
   description: string;
 }>;
 
+export type DifferentiatorComparisonRow = Readonly<{
+  criterion: string;
+  myClawTeam: string;
+  alternatives: string;
+}>;
+
 export type DifferentiatorsContent = SectionIntro &
   Readonly<{
     items: readonly DifferentiatorItem[];
+    comparison: Readonly<{
+      myClawTeamLabel: string;
+      alternativesLabel: string;
+      rows: readonly DifferentiatorComparisonRow[];
+    }>;
   }>;
 
 export type FaqEntry = Readonly<{
@@ -193,6 +204,31 @@ export const differentiatorsContent = {
         "The agent adapts to the project structure and tooling already present in the repo.",
     },
   ],
+  comparison: {
+    myClawTeamLabel: "Your own repo",
+    alternativesLabel: "Lock-in alternatives",
+    rows: [
+      {
+        criterion: "Where code lands",
+        myClawTeam: "Branches and pull requests in your GitHub repository.",
+        alternatives:
+          "External workspaces or generated exports you must reconcile later.",
+      },
+      {
+        criterion: "Review model",
+        myClawTeam: "Every change is visible as a normal code review artifact.",
+        alternatives:
+          "Implementation details can be hidden behind a hosted workflow.",
+      },
+      {
+        criterion: "Long-term control",
+        myClawTeam:
+          "Your team keeps the code, history, tooling, and deployment path.",
+        alternatives:
+          "Leaving the platform can mean losing context or rebuilding process.",
+      },
+    ],
+  },
 } satisfies DifferentiatorsContent;
 
 export const faqContent = {
