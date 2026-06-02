@@ -1,4 +1,5 @@
 import { Differentiators } from "@/components/sections/Differentiators";
+import { FAQ } from "@/components/sections/FAQ";
 import { Features } from "@/components/sections/Features";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
@@ -11,6 +12,7 @@ export default function Home() {
       <HowItWorks content={landingContent.howItWorks} />
       <Features content={landingContent.features} />
       <Differentiators content={landingContent.differentiators} />
+      <FAQ content={landingContent.faq} />
     </main>
   );
 }
