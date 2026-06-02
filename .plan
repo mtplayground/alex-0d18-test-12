@@ -1,0 +1,64 @@
+Architecture plan for myClawTeam
+
+Scope
+- Build a static-friendly Next.js 14 landing site using TypeScript, the App Router, Tailwind CSS, accessible reusable UI primitives, and test coverage.
+- Product naming must come from issue content and PRODUCT.md when present. Until PRODUCT.md exists, use the issue-provided name: myClawTeam.
+
+Module structure and file organization
+- app/
+  - layout.tsx: root HTML shell, font wiring, global metadata defaults, JSON-LD injection point if kept global.
+  - page.tsx: composed landing page only; no large inline copy or section implementation.
+  - not-found.tsx: custom 404.
+  - sitemap.ts and robots.ts: framework-native metadata routes.
+- app/globals.css: Tailwind directives, CSS variables, base element styles, focus-visible treatment, and reusable utility layers only when needed.
+- components/ui/
+  - Button.tsx, Container.tsx, Section.tsx: base primitives used by page sections and navigation.
+- components/layout/
+  - Header.tsx: sticky top navigation.
+  - Footer.tsx: footer content and links.
+- components/sections/
+  - Hero.tsx, HowItWorks.tsx, Features.tsx, Differentiators.tsx, FAQ.tsx, FinalCTA.tsx.
+  - Each section consumes typed content props from lib/content rather than owning marketing copy.
+- lib/content/
+  - site.ts: site-wide metadata, nav links, footer links, canonical URL defaults.
+  - landing.ts: typed landing-page content for hero, steps, feature cards, differentiators, FAQs, and CTA.
+  - schema.ts or structured-data.ts: organization JSON-LD builder.
+- lib/env.ts: typed environment-variable handling with a small validation surface appropriate for static deployment.
+- tests/
+  - component tests for section rendering and critical accessible labels/content.
+  - e2e smoke test for a production/static build.
+
+Shared types
+- Define explicit TypeScript types for navigation links, CTA links, feature cards, process steps, FAQ items, metadata config, and organization schema input.
+- Prefer exported readonly content objects validated with `satisfies` so content remains centralized and type-checked without runtime overhead.
+- UI primitives should expose small variant/size prop unions and preserve native element props where practical.
+
+Issue dependencies
+- #1 is the project foundation and must happen before all app, lint, test, and build work.
+- #2 depends on #1 and unlocks styled components and sections.
+- #3 can follow #1, and should run before broad implementation so formatting/lint rules guide later changes.
+- #4 can follow #1 and should precede metadata/deployment work that references URLs or public config.
+- #5 depends on #1 and partially on #4 for canonical metadata values.
+- #6 depends on #2 and should precede layout and section issues.
+- #7 and #8 depend on #6 and shared content from #9, though simple placeholders can be replaced after #9.
+- #9 should be completed before #10-#16 so page copy is typed and centralized.
+- #10-#15 depend on #6 and #9. They can be implemented independently, then assembled in #16.
+- #16 depends on #7, #8, and #10-#15.
+- #17 depends on #4, #5, #9, and #16.
+- #18 depends on #4 and #17 for canonical URL decisions.
+- #19 depends on #4 and #9 for organization/site data.
+- #20 depends on #1, #2, and #6.
+- #21 depends on completed section components (#10-#15) and content modules (#9).
+- #22 depends on #16 plus stable build scripts.
+- #23 depends on the full page composition and tests, especially #16, #21, and #22.
+- #24 should be last, after env handling, build commands, static deployment behavior, sitemap/robots, and QA are known.
+
+Key design decisions
+- Use App Router server components by default. Add client components only for real interactivity such as a mobile nav toggle if needed.
+- Keep the landing page static and deployment-portable. Avoid backend dependencies unless a later issue explicitly introduces them.
+- Centralize all copy, links, metadata constants, and organization details in typed modules to prevent duplicated strings across sections, metadata, sitemap, and structured data.
+- Use semantic HTML landmarks and section headings from the start so accessibility work is incremental rather than a late rewrite.
+- Keep base UI primitives small and unopinionated: composition should happen in section components, not in a broad design-system abstraction.
+- Configure Tailwind around CSS variables for brand colors and spacing tokens so visual changes remain localized.
+- Prefer framework-native metadata routes for sitemap and robots rather than static files, because they can share canonical URL config.
+- Test at two levels: component tests for content/structure regressions and one Playwright smoke test against the production build for routing, rendering, and responsiveness.
