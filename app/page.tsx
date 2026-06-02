@@ -1,3 +1,4 @@
+import { Features } from "@/components/sections/Features";
 import { Hero } from "@/components/sections/Hero";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { landingContent } from "@/content/landing";
@@ -7,6 +8,7 @@ export default function Home() {
     <main>
       <Hero content={landingContent.hero} />
       <HowItWorks content={landingContent.howItWorks} />
+      <Features content={landingContent.features} />
     </main>
   );
 }
