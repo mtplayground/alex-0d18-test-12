@@ -1,0 +1,7 @@
+.next/
+out/
+node_modules/
+coverage/
+build/
+*.tsbuildinfo
+package-lock.json
